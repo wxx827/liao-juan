@@ -4,14 +4,16 @@ import { registerChapter } from '../registry.js';
 import { state, unlockSeal } from '../state.js';
 import { pluck, pop, gong, success } from '../audio.js';
 
-// 七个可点色分区：每区一种传统脸谱定性之色
+// 七个可点色分区：每区一种传统脸谱定性之色。
+// 数组顺序即 SVG 绘制顺序，也决定命中测试的优先级：两片眼窝与鼻梁/脸颊在几何上重叠，
+// 必须排在它们之后绘制，否则会被完全覆盖，手指点不到（键盘/程序化 click 却仍可达，易漏测）。
 export const REGIONS = [
   { id: 'forehead',  name: '额头', color: '#A6382E', d: 'M150,42 C206,44 235,90 236,152 L64,152 C65,90 94,44 150,42 Z' },
-  { id: 'leftEye',   name: '左眼窝', color: '#F5EFE3', el: 'ellipse', cx: 113, cy: 178, rx: 33, ry: 24 },
-  { id: 'rightEye',  name: '右眼窝', color: '#F5EFE3', el: 'ellipse', cx: 187, cy: 178, rx: 33, ry: 24 },
   { id: 'nose',      name: '鼻梁', color: '#C9A227', d: 'M140,150 L160,150 L167,292 L133,292 Z' },
   { id: 'leftCheek', name: '左脸颊', color: '#1B2F49', d: 'M64,152 L133,152 L133,300 C99,296 74,250 64,152 Z' },
   { id: 'rightCheek',name: '右脸颊', color: '#1B2F49', d: 'M236,152 L167,152 L167,300 C201,296 226,250 236,152 Z' },
+  { id: 'leftEye',   name: '左眼窝', color: '#F5EFE3', el: 'ellipse', cx: 113, cy: 178, rx: 33, ry: 24 },
+  { id: 'rightEye',  name: '右眼窝', color: '#F5EFE3', el: 'ellipse', cx: 187, cy: 178, rx: 33, ry: 24 },
   { id: 'chin',      name: '下巴', color: '#2E7D5B', d: 'M96,292 C120,330 150,346 150,346 C150,346 180,330 204,292 C168,312 132,312 96,292 Z' },
 ];
 

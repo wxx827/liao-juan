@@ -81,30 +81,28 @@ npm run preview   # 本地起服务器预览 dist/
 
 > 调试技巧：地址后加章节 id 直达，如 `#feng` / `#jing` / `#yun` / `#wei` / `#ci` / `#bing` / `#gu` / `#shi` / `#ren` / `#yi` / `#bao` / `#su` / `#yan` / `#ta` / `#tu` / `#zi` / `#lian` / `#xian` / `#zhi` / `#xing` / `#final`。
 
-## 四、部署 + 生成二维码（提交用）
+## 四、部署与二维码（已完成）
 
-C 类作品提交格式为**二维码或 MP4**。推荐把 `dist/` 部署到任一免费静态托管，拿到公网网址后生成二维码贴进报名表。
+作品已构建并部署上线，二维码已生成并通过双解码器校验，提交物料集中在仓库根目录的 [`提交/`](提交/) 文件夹。
 
-**方式 A：Vercel（最简单）**
-1. 把项目推到 GitHub 仓库。
-2. 登录 vercel.com → New Project → 选择该仓库 → 一路默认（Vercel 自动识别 Vite）→ Deploy。
-3. 得到形如 `https://xxx.vercel.app` 的网址。
+| 项 | 现状 |
+| --- | --- |
+| 线上地址 | **https://wxx827.github.io/liao-juan/** （已验证 HTTP 200 可访问） |
+| 托管方式 | GitHub Pages，仓库 `wxx827/liao-juan`，`dist/` 内容发布于 `gh-pages` 分支 |
+| 构建产物 | `npm run build` → `dist/`（约 3.9 MB，`vite.config.js` 已设 `base:'./'`，子路径部署无需改配置） |
+| 装帧版二维码 | `build/qrcode_poster.png`（1080×1500，含标题/副标题/扫码指引/网址）→ 提交副本 `提交/辽卷_指尖上的辽宁_二维码.png` |
+| 素码版二维码 | `build/qrcode_plain.png`（1068×1068，白底红码）→ 提交副本 `提交/辽卷_指尖上的辽宁_二维码_素码.png` |
+| 生成与校验 | `python scripts/make_qr.py` 生成，pyzbar + OpenCV **双解码器**校验均命中目标网址 |
 
-**方式 B：GitHub Pages**
-1. 推到 GitHub 仓库。
-2. `npm run build`，将 `dist/` 内容推到 `gh-pages` 分支（或用 GitHub Actions）。
-3. 仓库 Settings → Pages 选中该分支，得到 `https://用户名.github.io/仓库名/`。
-   （`vite.config.js` 已设 `base:'./'`，子路径部署无需改配置。）
+**换网址时**：`set QR_URL=<新网址> && python scripts/make_qr.py` 重新出图，再跑 `python scripts/verify_submit.py` 复核提交包。
 
-**生成二维码**：把公网网址粘贴到任意二维码工具（草料二维码 cli.im、或在线 QR generator）导出高清 PNG，放进报名表。建议二维码下方标注"请用手机浏览器扫码，横竖屏均可，建议开启声音"。
+## 五、短视频演示片（已产出）
 
-## 五、录制 MP4 备用版（应对现场无网）
+比赛对短视频的要求：**竖屏 9:16、时长 ≤ 60 秒、MP4 / H.264、≤ 100MB**。成片位于 `提交/辽卷_指尖上的辽宁_短视频_1080x1920_竖屏.mp4`，规格实测值见 [`提交/自查报告.txt`](提交/自查报告.txt)。
 
-比赛要求短视频：**竖屏 9:16、时长 ≤ 60 秒、MP4 / H.264、≤ 100MB**。
-
-1. 手机浏览器打开作品，用系统"屏幕录制"完整走一遍五章（约 50–60 秒）。
-2. 或电脑上用 Chrome 手机模拟（F12 → 设备工具栏 → 选 iPhone 尺寸）+ OBS 录制竖屏区域。
-3. 用剪映/PR 裁成 9:16、导出 H.264 MP4，压到 100MB 以内。
+- 逐章画面由 `scripts/record.mjs` 驱动无头浏览器按 1080×1920 竖屏采集，`scripts/inspect_frames.py` 校帧，ffmpeg 编码为 H.264 MP4；配乐由代码合成，无采样、无外部音频。
+- `python scripts/verify_submit.py` 会用 ffprobe 读出容器/编码/分辨率/比例/时长/体积/音轨，逐条给出 PASS/FAIL 并写入 `提交/自查报告.txt`。
+- 现场无网时直接播放该 MP4 即可完整展示长卷与终章明信片。
 
 ## 六、目录结构
 
@@ -128,8 +126,13 @@ C 类作品提交格式为**二维码或 MP4**。推荐把 `dist/` 部署到任�
 │     ├─ liaoren / liaoyi / liaobao / liaosu / liaoyan .chapter.js (+.css)  群英/百工/矿珍/社火/唠嗑
 │     └─ ta / tu / zi / lian / xian / zhi / xing .chapter.js (+.css)  古塔/十四市/墨宝/脸谱/山珍/智绘诗签/尾声
 ├─ public/assets/img/       内置章节的插画素材（新章零新增图片）
+├─ 提交/                    参赛提交包（短视频 + 二维码 + 提交说明 + 报名表速查 + 自查报告）
 └─ scripts/
    ├─ process_assets.py     素材裁剪/抠图/压缩
+   ├─ make_qr.py            生成装帧版/素码版二维码并双解码校验
+   ├─ record.mjs            竖屏演示片逐章采帧
+   ├─ prepare_submit.py     建立 提交/ 目录并复制二维码为规范文件名
+   ├─ verify_submit.py      提交包自查：视频规格 / 二维码可解 / 文件齐全 → 自查报告.txt
    ├─ e2e.mjs               端到端交互冒烟测试（遍历全部章节断言印章点亮）
    └─ shots.mjs             逐章截图工具
 ```
