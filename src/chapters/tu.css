@@ -1,0 +1,109 @@
+/* ============ 辽图 · 十四市（城市网格） ============ */
+.ch-tu {
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+  overflow: hidden;
+  background:
+    radial-gradient(120% 55% at 50% 0%, rgba(201,162,39,.14), transparent 62%),
+    radial-gradient(90% 50% at 50% 100%, rgba(27,47,73,.12), transparent 60%),
+    var(--paper);
+}
+
+.tu-progress {
+  align-self: center;
+  margin: 2px 0 6px;
+  padding: 6px 20px;
+  font-family: var(--serif);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: var(--indigo);
+  background: rgba(245,239,227,.72);
+  border: 1.5px solid rgba(201,162,39,.55);
+  border-radius: 999px;
+}
+
+.tu-grid-wrap {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: none;
+  padding: 8px 18px calc(20px + env(safe-area-inset-bottom));
+}
+.tu-grid-wrap::-webkit-scrollbar { display: none; }
+
+.tu-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 11px;
+  max-width: 460px;
+  margin: 0 auto;
+}
+@media (min-width: 420px) {
+  .tu-grid { grid-template-columns: repeat(4, 1fr); }
+}
+
+.city-chip {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 1 / 1;
+  padding: 6px;
+  font-family: var(--serif);
+  cursor: pointer;
+  border-radius: 12px;
+  background: rgba(245,239,227,.85);
+  border: 1.5px solid rgba(27,47,73,.16);
+  box-shadow: 0 4px 12px rgba(43,43,43,.07);
+  transition: transform .18s ease, background .3s ease, border-color .3s ease, box-shadow .3s ease;
+  opacity: 0;
+  transform: translateY(14px);
+  animation: cityIn .5s ease forwards;
+  animation-delay: calc(var(--i) * .04s);
+}
+@keyframes cityIn {
+  to { opacity: 1; transform: none; }
+}
+.city-name {
+  font-size: 17px;
+  font-weight: 900;
+  letter-spacing: 2px;
+  color: var(--ink);
+}
+.city-tick {
+  position: absolute;
+  top: 6px; right: 8px;
+  font-size: 12px;
+  font-weight: 900;
+  color: var(--gold);
+  opacity: 0;
+  transform: scale(0);
+  transition: opacity .25s ease, transform .25s cubic-bezier(.2,1.6,.4,1);
+}
+.city-chip:active { transform: scale(.95); }
+
+.city-chip.seen {
+  background: var(--red);
+  border-color: var(--gold);
+  box-shadow: 0 5px 14px rgba(166,56,46,.4);
+}
+.city-chip.seen .city-name { color: var(--paper); }
+.city-chip.seen .city-tick { opacity: 1; transform: scale(1); }
+
+/* 弹窗（复用 .modal / .modal-card 观感，去掉右上角“景”角标） */
+.tu-card::after { content: none !important; }
+.tu-modal-badge {
+  width: 74px; height: 74px;
+  margin: 4px auto 8px;
+  display: grid; place-items: center;
+  font-size: 40px; font-weight: 900;
+  color: var(--paper);
+  background: var(--red);
+  border: 2px solid var(--gold);
+  border-radius: 12px;
+  transform: rotate(-5deg);
+  box-shadow: 0 6px 16px rgba(166,56,46,.4);
+}

@@ -1,0 +1,97 @@
+/* ============ 辽韵 · 脸谱（点色开脸） ============ */
+.ch-lian {
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+  overflow: hidden;
+  background:
+    radial-gradient(120% 55% at 50% 0%, rgba(166,56,46,.12), transparent 60%),
+    radial-gradient(90% 60% at 50% 100%, rgba(27,47,73,.10), transparent 60%),
+    var(--paper);
+}
+
+.lian-stage {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 4px 20px 8px;
+}
+
+.lian-mask {
+  width: 100%;
+  max-width: 340px;
+  height: auto;
+  filter: drop-shadow(0 8px 20px rgba(43,43,43,.18));
+  transition: filter .5s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+.lian-mask.done {
+  filter: drop-shadow(0 0 10px rgba(201,162,39,.85)) drop-shadow(0 8px 20px rgba(43,43,43,.2));
+}
+
+/* 脸型底：宣纸底 + 描金边 */
+.mask-face {
+  fill: var(--paper);
+  stroke: var(--gold);
+  stroke-width: 3;
+  transition: stroke .5s ease;
+}
+.lian-mask.done .mask-face {
+  stroke: var(--gold-soft);
+  stroke-width: 4;
+}
+
+/* 可点色分区：初始留白 + 虚线轮廓 */
+.mask-region {
+  fill: rgba(43,43,43,.06);
+  stroke: rgba(43,43,43,.4);
+  stroke-width: 1.4;
+  stroke-dasharray: 5 4;
+  cursor: pointer;
+  transition: fill .35s ease, stroke .35s ease, opacity .2s ease;
+}
+.mask-region:hover { fill: rgba(166,56,46,.12); }
+.mask-region:active { opacity: .82; }
+.mask-region.colored {
+  stroke: rgba(43,43,43,.28);
+  stroke-width: 1;
+  stroke-dasharray: none;
+  animation: lianPop .38s ease;
+}
+@keyframes lianPop {
+  0%   { opacity: .2; }
+  60%  { opacity: 1; }
+  100% { opacity: 1; }
+}
+
+/* 固定五官线条 */
+.mask-features { stroke-linecap: round; stroke-linejoin: round; }
+.mf-brow  { fill: var(--ink); }
+.mf-eye   { fill: var(--paper); stroke: var(--ink); stroke-width: 2.4; }
+.mf-pupil { fill: var(--ink); }
+.mf-nose  { fill: none; stroke: var(--ink); stroke-width: 2.4; }
+.mf-mouth { fill: var(--red-deep); stroke: var(--ink); stroke-width: 1.6; }
+.mf-motif { fill: var(--gold); opacity: .9; }
+
+/* 进度 */
+.lian-progress {
+  font-family: var(--serif);
+  font-size: 15px;
+  font-weight: 900;
+  letter-spacing: 2px;
+  color: var(--indigo);
+  padding: 4px 16px;
+  border: 1.5px solid rgba(27,47,73,.2);
+  border-radius: 999px;
+  background: rgba(245,239,227,.7);
+}
+.lian-progress #lianCount { color: var(--red); font-size: 18px; }
+
+.ch-lian .ch-note {
+  margin: 2px 22px 12px;
+  text-align: center;
+}

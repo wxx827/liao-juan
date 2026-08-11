@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#141F30" />
+  <meta name="description" content="辽·卷 — 指尖上的辽宁 · 国潮互动长卷：辽风、辽景、辽韵、辽味，滑动开启一场关外之旅。" />
+  <meta property="og:title" content="辽·卷 — 指尖上的辽宁" />
+  <meta property="og:description" content="一幅指尖长卷，四段关外风物。剪一扇窗花、游辽宁四景、拨动皮影、集辽味四宝，生成你的专属国潮明信片。" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23A6382E'/%3E%3Ctext x='32' y='46' font-size='40' font-family='serif' font-weight='900' text-anchor='middle' fill='%23F5EFE3'%3E辽%3C/text%3E%3C/svg%3E" />
+  <title>辽·卷 — 指尖上的辽宁</title>
+  <!-- 网络字体非阻塞加载：被墙/断网时立即回退系统宋体，绝不白屏 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700;900&display=swap"
+    rel="stylesheet"
+    media="print"
+    onload="this.media='all'"
+  />
+</head>
+<body>
+  <!-- 首屏加载遮罩：印章旋转 + 展卷进度 -->
+  <div id="loader" aria-hidden="true">
+    <div class="loader-seal">辽</div>
+    <div class="loader-bar"><i id="loaderBar"></i></div>
+    <div class="loader-text">展卷中 · 请稍候</div>
+  </div>
+
+  <div id="app">
+    <!-- 顶部：紧凑印章进度（药丸 + 细进度条） -->
+    <header id="hud" aria-label="游历进度">
+      <div class="hud-pill">
+        <span class="hud-pill-seal">印</span>
+        <span class="hud-count" id="hudCount">0 / 0</span>
+      </div>
+      <div class="hud-track"><i id="hudBar"></i></div>
+    </header>
+
+    <main id="scroll">
+      <!-- ██ 序章 ██ -->
+      <section class="chapter" id="intro" style="background-image:url('assets/img/intro-bg.jpg')">
+        <div class="veil"></div>
+        <div class="intro-inner">
+          <div class="intro-ink"></div>
+          <h1 class="intro-title" aria-label="辽卷">
+            <span class="glyph" style="--d:.2s">辽</span>
+            <span class="glyph dot" style="--d:.65s">·</span>
+            <span class="glyph" style="--d:.9s">卷</span>
+          </h1>
+          <p class="intro-sub">
+            <span style="--d:1.5s">传承</span><i style="--d:1.7s"></i>
+            <span style="--d:1.8s">智绘</span><i style="--d:2.0s"></i>
+            <span style="--d:2.1s">融合</span>
+          </p>
+          <p class="intro-line" style="--d:2.5s">一幅指尖长卷 · 四段关外风物</p>
+        </div>
+        <div class="scroll-hint">
+          <span class="chev"></span>
+          <span class="hint-text">上滑 · 展卷</span>
+        </div>
+      </section>
+
+      <!-- ██ 第一章 · 辽风（非遗剪纸） ██ -->
+      <section class="chapter ch-paper" id="feng">
+        <div class="ch-head">
+          <span class="ch-no">壹</span>
+          <div class="ch-name">
+            <h2>辽风 · 剪纸</h2>
+            <p>指尖为剪，剪一扇满族窗花</p>
+          </div>
+        </div>
+        <div class="paper-stage">
+          <div class="paper-frame" id="paperFrame">
+            <img id="papercutImg" src="assets/img/papercut.jpg" alt="满族剪纸窗花" draggable="false" />
+            <canvas id="paperCanvas"></canvas>
+            <div class="paper-tip" id="paperTip">在红纸上来回滑动 · 剪出窗花</div>
+          </div>
+          <div class="paper-progress"><i id="paperBar"></i></div>
+          <p class="ch-note">满族剪纸 · 国家级非物质文化遗产。<br/>关东人家把日子的红火，都剪进了窗花里。</p>
+        </div>
+        <div class="stamp" id="stampFeng">剪毕<br/>成花</div>
+      </section>
+
+      <!-- ██ 第二章 · 辽景（视差长卷） ██ -->
+      <section class="chapter ch-scene" id="jing">
+        <div class="ch-head">
+          <span class="ch-no">贰</span>
+          <div class="ch-name">
+            <h2>辽景 · 山河</h2>
+            <p>横滑游卷，点亮辽宁四景</p>
+          </div>
+        </div>
+        <div class="pan-wrap" id="panWrap">
+          <div class="pan" id="pan" style="background-image:url('assets/img/panorama.jpg')">
+            <div class="pan-mist"></div>
+            <div class="pan-route"></div>
+            <button class="pin" style="--x:9%"  data-scene="honghaitan"><i></i><b>盘锦 · 红海滩</b></button>
+            <button class="pin" style="--x:36%" data-scene="shuidong"><i></i><b>本溪 · 水洞</b></button>
+            <button class="pin" style="--x:62%" data-scene="duanqiao"><i></i><b>丹东 · 断桥</b></button>
+            <button class="pin" style="--x:87%" data-scene="binhai"><i></i><b>大连 · 滨海</b></button>
+          </div>
+        </div>
+        <div class="pan-hint">← 横向滑动 · 游览长卷 →</div>
+        <div class="stamp" id="stampJing">四景<br/>入卷</div>
+      </section>
+
+      <!-- ██ 第三章 · 辽韵（皮影戏台） ██ -->
+      <section class="chapter ch-stagey" id="yun">
+        <div class="ch-head light">
+          <span class="ch-no">叁</span>
+          <div class="ch-name">
+            <h2>辽韵 · 皮影</h2>
+            <p>拖动影人走台 · 轻点听一声锣</p>
+          </div>
+        </div>
+        <div class="shadow-stage" id="shadowStage">
+          <div class="curtain left"></div>
+          <div class="curtain right"></div>
+          <div class="lantern l1"></div>
+          <div class="lantern l2"></div>
+          <div class="puppet" id="puppet">
+            <img src="assets/img/puppet.png" alt="皮影人" draggable="false" />
+          </div>
+          <div class="stage-floor"></div>
+        </div>
+        <p class="ch-note light">凌源皮影 · 灯影里唱了三百年的关外故事。</p>
+        <div class="stamp" id="stampYun">好戏<br/>开场</div>
+      </section>
+
+      <!-- ██ 第四章 · 辽味（美食收集） ██ -->
+      <section class="chapter ch-food" id="wei">
+        <div class="ch-head">
+          <span class="ch-no">肆</span>
+          <div class="ch-name">
+            <h2>辽味 · 四宝</h2>
+            <p>点选佳肴，收入你的食盒</p>
+          </div>
+        </div>
+        <div class="food-grid" id="foodGrid">
+          <button class="food" data-food="jiaozi">
+            <span class="steam"><i></i><i></i><i></i></span>
+            <img src="assets/img/food-jiaozi.jpg" alt="老边饺子" draggable="false" />
+            <b>沈阳 · 老边饺子</b>
+          </button>
+          <button class="food" data-food="xunji">
+            <span class="steam"><i></i><i></i><i></i></span>
+            <img src="assets/img/food-xunji.jpg" alt="沟帮子熏鸡" draggable="false" />
+            <b>锦州 · 沟帮子熏鸡</b>
+          </button>
+          <button class="food" data-food="guobaorou">
+            <span class="steam"><i></i><i></i><i></i></span>
+            <img src="assets/img/food-guobaorou.jpg" alt="锅包肉" draggable="false" />
+            <b>辽菜 · 锅包肉</b>
+          </button>
+          <button class="food" data-food="haixian">
+            <span class="steam"><i></i><i></i><i></i></span>
+            <img src="assets/img/food-haixian.jpg" alt="大连海鲜" draggable="false" />
+            <b>大连 · 渤海飞蟹</b>
+          </button>
+        </div>
+        <div class="food-tray" id="foodTray">
+          <span class="tray-label">食盒</span>
+          <i class="slot" data-slot="jiaozi"></i>
+          <i class="slot" data-slot="xunji"></i>
+          <i class="slot" data-slot="guobaorou"></i>
+          <i class="slot" data-slot="haixian"></i>
+        </div>
+        <div class="stamp" id="stampWei">四宝<br/>集齐</div>
+      </section>
+
+      <!-- ██ 第五章 · 辽瓷（点釉） ██ -->
+      <section class="chapter ch-porcelain" id="ci">
+        <div class="ch-head">
+          <span class="ch-no">伍</span>
+          <div class="ch-name">
+            <h2>辽瓷 · 千峰翠色</h2>
+            <p>轻点瓶身 · 唤醒沉睡的青花</p>
+          </div>
+        </div>
+        <div class="vase-stage">
+          <div class="vase-frame" id="vaseFrame">
+            <img id="vaseImg" src="assets/img/ci-vase.jpg" alt="辽瓷青花瓶" draggable="false" />
+            <canvas id="vaseCanvas"></canvas>
+            <div class="vase-tip" id="vaseTip">轻点瓶身 · 点出青花</div>
+          </div>
+          <div class="paper-progress"><i id="vaseBar"></i></div>
+          <p class="ch-note">辽瓷 · 千年窑火。一点釉色入胎，素坯绽出千峰翠色。</p>
+        </div>
+        <div class="stamp" id="stampCi">釉成<br/>器美</div>
+      </section>
+
+      <!-- ██ 第六章 · 辽冰（接雪花） ██ -->
+      <section class="chapter ch-ice" id="bing" style="background-image:url('assets/img/bing-bg.jpg')">
+        <div class="veil"></div>
+        <div class="ch-head light">
+          <span class="ch-no">陆</span>
+          <div class="ch-name">
+            <h2>辽冰 · 踏雪寻梅</h2>
+            <p>点住飘落的雪花，集齐十二片</p>
+          </div>
+        </div>
+        <div class="snow-catch" id="snowCatch">
+          <div class="snow-count">已集雪 <b id="snowNum">0</b> / 12</div>
+        </div>
+        <p class="ch-note light">辽东的冬，是雾凇沆砀，是冰嬉踏雪的欢腾。</p>
+        <div class="stamp" id="stampBing">踏雪<br/>寻梅</div>
+      </section>
+
+      <!-- ██ 第七章 · 辽戏（击鼓） ██ -->
+      <section class="chapter ch-drum" id="gu">
+        <div class="ch-head light">
+          <span class="ch-no">柒</span>
+          <div class="ch-name">
+            <h2>辽戏 · 鼓韵</h2>
+            <p>跟着灯点，擂响东北大鼓</p>
+          </div>
+        </div>
+        <div class="drum-stage" id="drumStage">
+          <div class="drum-combo" id="drumCombo">连击 0</div>
+          <div class="beat-ring" id="beatRing"></div>
+          <button class="drum" id="drumBtn" aria-label="击鼓">
+            <img src="assets/img/gu-drum.jpg" alt="东北大鼓" draggable="false" />
+          </button>
+          <div class="drum-hint" id="drumHint">跟着节拍 · 连击十二记</div>
+        </div>
+        <div class="stamp" id="stampGu">鼓韵<br/>铿锵</div>
+      </section>
+
+      <!-- ██ 终章 · 明信片 ██ -->
+      <section class="chapter ch-final" id="final">
+        <div class="ch-head">
+          <span class="ch-no">终</span>
+          <div class="ch-name">
+            <h2>卷成 · 留印</h2>
+            <p>这一程关外风物，都在你的明信片里</p>
+          </div>
+        </div>
+        <div class="final-banner" id="finalBanner" hidden>关外风物 · 尽入此卷</div>
+        <div class="postcard-wrap">
+          <img id="postcardPreview" alt="我的辽卷明信片" />
+        </div>
+        <div class="final-actions">
+          <button class="btn ghost" id="btnReset">重新游历</button>
+          <button class="btn solid" id="btnSave">保存明信片</button>
+        </div>
+        <p class="save-tip" id="saveTip">若未自动下载，请长按图片保存</p>
+      </section>
+    </main>
+
+    <!-- 辽景弹窗 -->
+    <div class="modal" id="sceneModal" hidden>
+      <div class="modal-card">
+        <img id="modalImg" alt="" />
+        <h3 id="modalTitle"></h3>
+        <p id="modalDesc"></p>
+        <button class="btn solid" id="modalClose">收入长卷</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>

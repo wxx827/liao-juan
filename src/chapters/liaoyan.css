@@ -1,0 +1,97 @@
+/* ============ 辽言 · 唠嗑（方言问答） ============ */
+.ch-dialect {
+  background:
+    radial-gradient(120% 55% at 50% 0%, rgba(27,47,73,.12), transparent 60%),
+    var(--paper);
+}
+.yan-stage {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 10px 22px calc(20px + env(safe-area-inset-bottom));
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+.yan-stage::-webkit-scrollbar { display: none; }
+.yan-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+.yan-no { color: var(--indigo); }
+.yan-score { color: var(--red); }
+.yan-q {
+  font-size: 18px;
+  font-weight: 900;
+  line-height: 1.6;
+  letter-spacing: 1px;
+  color: var(--ink);
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: rgba(245,239,227,.75);
+  border-left: 4px solid var(--red);
+  box-shadow: 0 4px 14px rgba(43,43,43,.06);
+}
+.yan-opts {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.yan-opt {
+  font-family: var(--serif);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-align: left;
+  color: var(--ink);
+  padding: 13px 16px;
+  border-radius: 10px;
+  background: var(--paper);
+  border: 1.5px solid rgba(27,47,73,.2);
+  cursor: pointer;
+  transition: transform .15s ease, border-color .2s ease, background .2s ease;
+}
+.yan-opt:active { transform: scale(.98); }
+.yan-opt.right {
+  border-color: var(--gold);
+  background: rgba(201,162,39,.16);
+  color: var(--red-deep);
+}
+.yan-opt.right::after { content: " ✓"; color: var(--gold); font-weight: 900; }
+.yan-opt.wrong {
+  border-color: var(--red);
+  background: rgba(166,56,46,.12);
+  color: var(--red);
+}
+.yan-tip {
+  font-size: 12.5px;
+  line-height: 1.7;
+  color: rgba(43,43,43,.7);
+  padding: 0 4px;
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height .4s ease, opacity .4s ease;
+}
+.yan-tip.show { max-height: 120px; opacity: 1; }
+.yan-next {
+  align-self: center;
+  margin-top: 2px;
+  font-family: var(--serif);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  color: var(--paper);
+  background: var(--red);
+  border: 2px solid var(--gold);
+  padding: 10px 28px;
+  border-radius: 999px;
+  cursor: pointer;
+}
+.yan-next:active { transform: scale(.96); }
+.yan-next[hidden] { display: none; }

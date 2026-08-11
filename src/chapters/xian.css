@@ -1,0 +1,173 @@
+/* ============ 辽鲜 · 山珍（山海时鲜收食篓） ============ */
+.ch-xian {
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+  overflow: hidden;
+  background:
+    radial-gradient(130% 60% at 50% 0%, rgba(201,162,39,.14), transparent 62%),
+    radial-gradient(120% 50% at 50% 100%, rgba(122,155,70,.12), transparent 60%),
+    var(--paper);
+}
+
+/* 网格：两列，占满剩余高度并内部滚动 */
+.xian-grid {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: none;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  padding: 6px 18px 14px;
+  align-content: start;
+}
+.xian-grid::-webkit-scrollbar { display: none; }
+
+.xian-card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 12px 12px 10px;
+  border-radius: 14px;
+  border: 1.5px solid rgba(126,42,34,.18);
+  background: linear-gradient(160deg, rgba(245,239,227,.95), rgba(234,224,203,.9));
+  box-shadow: 0 4px 14px rgba(43,43,43,.07);
+  font-family: var(--serif);
+  text-align: left;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  opacity: 0;
+  transform: translateY(14px);
+  animation: xianIn .5s ease forwards;
+  animation-delay: calc(var(--i) * .07s);
+  transition: transform .18s ease, box-shadow .3s ease, border-color .3s ease, filter .35s ease;
+}
+@keyframes xianIn { to { opacity: 1; transform: none; } }
+.xian-card:active { transform: scale(.96); }
+
+.xian-tile {
+  flex: 0 0 auto;
+  width: 58px;
+  height: 58px;
+  display: grid;
+  place-items: center;
+  border-radius: 14px;
+  background:
+    radial-gradient(120% 120% at 30% 20%, #fbf7ec, #ddd0b4);
+  border: 1.5px solid rgba(126,42,34,.16);
+  box-shadow: inset 0 2px 6px rgba(255,255,255,.6), 0 2px 6px rgba(43,43,43,.08);
+}
+.xian-canvas { width: 44px; height: 44px; display: block; }
+
+.xian-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.xian-name {
+  font-size: 15px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  color: var(--ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.xian-city {
+  font-size: 11px;
+  font-style: normal;
+  letter-spacing: 1px;
+  color: rgba(43,43,43,.5);
+}
+.xian-city::before {
+  content: "◍ ";
+  color: var(--gold);
+}
+
+/* 已入篓角标 */
+.xian-badge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  padding: 2px 7px;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  color: var(--paper);
+  background: var(--red);
+  border-radius: 999px;
+  border: 1px solid var(--gold-soft);
+  opacity: 0;
+  transform: scale(.5);
+  transition: all .3s cubic-bezier(.2,1.5,.4,1);
+  pointer-events: none;
+}
+
+/* 已收集态：解锁描边 + 微微降饱和 */
+.xian-card.got {
+  border-color: var(--gold);
+  background: linear-gradient(160deg, rgba(245,239,227,.75), rgba(228,215,188,.7));
+  box-shadow: 0 3px 10px rgba(201,162,39,.28);
+}
+.xian-card.got .xian-tile { filter: saturate(.7) brightness(.98); }
+.xian-card.got .xian-name { color: var(--red-deep); }
+.xian-card.got .xian-badge { opacity: 1; transform: scale(1); }
+
+/* 食篓托盘 */
+.xian-tray {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 18px 14px;
+  padding: 10px 14px;
+  border-radius: 14px;
+  background: linear-gradient(180deg, rgba(126,42,34,.94), rgba(166,56,46,.9));
+  box-shadow: 0 6px 18px rgba(126,42,34,.32);
+  font-family: var(--serif);
+}
+.tray-label {
+  font-size: 14px;
+  font-weight: 900;
+  letter-spacing: 2px;
+  color: var(--gold-soft);
+}
+.tray-slots {
+  flex: 1;
+  display: flex;
+  gap: 7px;
+  justify-content: center;
+}
+.tray-slot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: rgba(245,239,227,.14);
+  border: 1.5px solid rgba(227,197,103,.55);
+  transition: all .3s ease;
+}
+.tray-slot.filled {
+  background: var(--gold);
+  border-color: var(--paper);
+  box-shadow: 0 0 8px rgba(227,197,103,.8);
+  animation: slotPop .4s cubic-bezier(.2,1.6,.4,1);
+}
+@keyframes slotPop {
+  0% { transform: scale(0); }
+  100% { transform: scale(1); }
+}
+.tray-count {
+  font-size: 13px;
+  letter-spacing: 1px;
+  color: var(--paper);
+}
+.tray-count b {
+  font-size: 18px;
+  color: var(--gold-soft);
+  margin-right: 1px;
+}

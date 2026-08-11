@@ -1,0 +1,188 @@
+/* ============ 卷灵 · 智游助手浮层 ============ */
+.jl-fab {
+  position: absolute;
+  left: 12px;
+  bottom: calc(14px + env(safe-area-inset-bottom));
+  z-index: 120;
+  width: 52px; height: 52px;
+  display: grid; place-items: center;
+  border: none;
+  border-radius: 50%;
+  background: radial-gradient(circle at 40% 34%, var(--red-soft, #C24E3E), var(--red) 70%);
+  box-shadow: 0 6px 18px rgba(126,42,34,.5), 0 0 0 2px rgba(201,162,39,.6);
+  cursor: pointer;
+  animation: jlFloat 3.2s ease-in-out infinite;
+  transition: transform .2s ease;
+}
+.jl-fab:active { transform: scale(.92); }
+.jl-fab.active { transform: scale(.9) rotate(-6deg); }
+.jl-fab-face {
+  font-family: var(--serif);
+  font-size: 15px;
+  font-weight: 900;
+  line-height: 1;
+  color: var(--paper);
+  text-align: center;
+  letter-spacing: 0;
+}
+@keyframes jlFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+@media (prefers-reduced-motion: reduce) { .jl-fab { animation: none; } }
+
+.jl-panel {
+  position: absolute;
+  left: 10px;
+  bottom: calc(74px + env(safe-area-inset-bottom));
+  z-index: 130;
+  width: min(84vw, 340px);
+  max-height: min(66vh, 520px);
+  display: flex;
+  flex-direction: column;
+  background: var(--paper);
+  border: 2px solid var(--red);
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+  border-radius: 14px;
+  box-shadow: 0 18px 44px rgba(43,43,43,.4);
+  overflow: hidden;
+  animation: jlPanelIn .3s cubic-bezier(.2,1.3,.4,1);
+}
+.jl-panel[hidden] { display: none; }
+@keyframes jlPanelIn {
+  from { opacity: 0; transform: translateY(20px) scale(.94); }
+  to { opacity: 1; transform: none; }
+}
+.jl-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  background: linear-gradient(120deg, var(--red), var(--red-deep));
+  color: var(--paper);
+}
+.jl-avatar {
+  width: 34px; height: 34px;
+  flex: none;
+  display: grid; place-items: center;
+  font-size: 17px; font-weight: 900;
+  background: rgba(245,239,227,.16);
+  border: 1.5px solid rgba(245,239,227,.5);
+  border-radius: 50%;
+}
+.jl-title { flex: 1; line-height: 1.25; }
+.jl-title b { font-size: 15px; font-weight: 900; letter-spacing: 1px; }
+.jl-title i { display: block; font-size: 10.5px; font-style: normal; color: rgba(245,239,227,.75); }
+.jl-close {
+  width: 28px; height: 28px;
+  flex: none;
+  border: none;
+  background: rgba(245,239,227,.14);
+  color: var(--paper);
+  font-size: 18px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.jl-msgs {
+  flex: 1;
+  min-height: 120px;
+  overflow-y: auto;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  scrollbar-width: thin;
+  background:
+    radial-gradient(120% 40% at 50% 0%, rgba(201,162,39,.06), transparent 60%),
+    var(--paper);
+}
+.jl-msg { display: flex; }
+.jl-msg.me { justify-content: flex-end; }
+.jl-bubble {
+  max-width: 82%;
+  font-size: 13px;
+  line-height: 1.7;
+  padding: 9px 12px;
+  border-radius: 12px;
+  letter-spacing: .3px;
+}
+.jl-msg.bot .jl-bubble {
+  color: var(--ink);
+  background: var(--paper-dark);
+  border: 1px solid rgba(27,47,73,.14);
+  border-top-left-radius: 3px;
+}
+.jl-msg.me .jl-bubble {
+  color: var(--paper);
+  background: var(--indigo);
+  border-top-right-radius: 3px;
+}
+.jl-bubble b { color: var(--red-deep); }
+.jl-msg.me .jl-bubble b { color: var(--gold-soft); }
+.jl-goto {
+  display: block;
+  margin-top: 8px;
+  font-family: var(--serif);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--paper);
+  background: var(--red);
+  border: none;
+  padding: 6px 12px;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.jl-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 0 12px 8px;
+}
+.jl-chip {
+  font-family: var(--serif);
+  font-size: 11.5px;
+  color: var(--red-deep);
+  background: rgba(201,162,39,.12);
+  border: 1px solid rgba(166,56,46,.3);
+  padding: 5px 10px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background .2s ease;
+}
+.jl-chip:active { background: rgba(201,162,39,.28); }
+
+.jl-input {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px calc(8px + env(safe-area-inset-bottom));
+  border-top: 1px solid rgba(27,47,73,.12);
+  background: var(--paper);
+}
+.jl-input input {
+  flex: 1;
+  font-family: var(--serif);
+  font-size: 13px;
+  color: var(--ink);
+  padding: 9px 12px;
+  border: 1.5px solid rgba(27,47,73,.2);
+  border-radius: 999px;
+  outline: none;
+  background: var(--paper-dark);
+}
+.jl-input input:focus { border-color: var(--red); }
+.jl-send {
+  width: 38px; height: 38px;
+  flex: none;
+  display: grid; place-items: center;
+  border: none;
+  border-radius: 50%;
+  background: var(--red);
+  color: var(--paper);
+  font-size: 15px;
+  cursor: pointer;
+}
+.jl-send:active { transform: scale(.92); }

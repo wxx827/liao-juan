@@ -1,0 +1,16 @@
+{
+  "name": "liao-juan",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "《辽·卷 — 指尖上的辽宁》 国潮互动 H5 · 2026辽宁省大学生国潮文化设计应用比赛 C类作品",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "puppeteer-core": "^25.3.0",
+    "vite": "^8.1.3"
+  }
+}

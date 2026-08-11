@@ -1,0 +1,57 @@
+/* ============================================================
+   章节契约样板（复制此文件为 <name>.chapter.js 即可新增一章）
+
+   说明：
+   - 本文件后缀为 .txt，不会被 main.js 的 import.meta.glob('*.chapter.js') 命中，
+     因此不会污染章节列表。新增章节时请复制内容到 src/chapters/<name>.chapter.js。
+   - 每个章节自包含：自建 section DOM（html 字符串）、import 自己的 CSS、
+     声明印章与需持久化的 state 字段。改章 = 只动自己这两三个文件，零冲突并行。
+   - 视觉请对齐国潮体系：故宫红 #A6382E / 靛青 #1B2F49 / 鎏金 #C9A227 / 宣纸 #F5EFE3。
+     可复用已有的 .ch-head / .stamp / .modal 观感。
+   - 新章优先程序化美术（canvas / CSS），不新增图片，不改 src/art.js。
+   ============================================================ */
+
+import './<name>.css';                       // 你自己的样式文件
+import { registerChapter } from '../registry.js';
+import { state, unlockSeal, persist } from '../state.js';
+import { pluck, pop, gong, success } from '../audio.js';
+
+registerChapter({
+  id: 'demo',                                 // section id（唯一）
+  order: 50,                                  // 排序：内置 7 章为 1..7，新章 20+，#final 恒为最后
+  seal: { key: 'demo', label: '例' },         // 印章（纯展示章可删除本行）
+  state: { demoSeen: [] },                    // 需持久化的默认字段（无则删除本行）
+  className: 'ch-demo',                        // 追加到 section 的 class（对应你 CSS 里的选择器）
+  html: `
+    <div class="ch-head">
+      <span class="ch-no">例</span>
+      <div class="ch-name">
+        <h2>示例 · 标题</h2>
+        <p>一句副标题引导交互</p>
+      </div>
+    </div>
+    <div class="demo-stage" id="demoStage">
+      <!-- 你的交互 DOM -->
+    </div>
+    <div class="stamp" id="stampDemo">完成<br/>成印</div>
+  `,
+  init(section) {
+    // section 即本章 <section> 元素；可用 section.querySelector 或 document.getElementById
+    const stage = document.getElementById('demoStage');
+    const stampEl = document.getElementById('stampDemo');
+    if (!stage) return;
+
+    function complete() {
+      if (state.seals.demo) return;
+      unlockSeal('demo');                     // 点亮印章（自动持久化 + 触发 HUD/礼花）
+      stampEl?.classList.add('show');
+      gong();
+      setTimeout(success, 450);
+    }
+
+    stage.addEventListener('click', () => { pluck(); complete(); });
+
+    // 已有存档：直接呈现完成态
+    if (state.seals.demo) stampEl?.classList.add('show');
+  },
+});

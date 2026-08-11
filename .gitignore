@@ -1,0 +1,8 @@
+node_modules/
+dist/
+shots/
+build/
+提交/
+.cursor/
+.DS_Store
+*.local

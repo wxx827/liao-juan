@@ -1,0 +1,98 @@
+/* ============ 辽字 · 墨宝（宣纸描红） ============ */
+.ch-zi {
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+  overflow: hidden;
+  background:
+    radial-gradient(120% 60% at 50% 0%, rgba(201,162,39,.12), transparent 60%),
+    var(--paper);
+}
+
+.zi-stage {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  padding: 8px 20px 24px;
+}
+
+/* 宣纸写字台 */
+.zi-frame {
+  position: relative;
+  width: min(78vw, 340px);
+  aspect-ratio: 1 / 1;
+  border-radius: 10px;
+  background:
+    linear-gradient(180deg, var(--paper), var(--paper-dark));
+  border: 2px solid rgba(166,56,46,.35);
+  box-shadow:
+    0 10px 28px rgba(43,43,43,.16),
+    inset 0 0 0 1px rgba(201,162,39,.25);
+  overflow: hidden;
+  touch-action: none;
+  cursor: crosshair;
+}
+
+/* 米字格辅助线 */
+.zi-frame::before,
+.zi-frame::after {
+  content: "";
+  position: absolute;
+  inset: 8px;
+  pointer-events: none;
+  z-index: 1;
+}
+.zi-frame::before {
+  background:
+    linear-gradient(to right, transparent calc(50% - .6px), rgba(166,56,46,.18) 50%, transparent calc(50% + .6px)),
+    linear-gradient(to bottom, transparent calc(50% - .6px), rgba(166,56,46,.18) 50%, transparent calc(50% + .6px));
+}
+.zi-frame::after {
+  background:
+    linear-gradient(45deg, transparent calc(50% - .5px), rgba(166,56,46,.12) 50%, transparent calc(50% + .5px)),
+    linear-gradient(-45deg, transparent calc(50% - .5px), rgba(166,56,46,.12) 50%, transparent calc(50% + .5px));
+  border: 1px dashed rgba(166,56,46,.22);
+}
+
+.zi-frame canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+}
+
+/* 提示 */
+.zi-hint {
+  position: absolute;
+  left: 0; right: 0;
+  bottom: 12px;
+  z-index: 3;
+  text-align: center;
+  font-family: var(--serif);
+  font-size: 13px;
+  letter-spacing: 2px;
+  color: rgba(166,56,46,.72);
+  pointer-events: none;
+  transition: opacity .5s ease;
+}
+.zi-frame.touched .zi-hint { opacity: 0; }
+
+.zi-frame.done {
+  border-color: var(--gold);
+  box-shadow:
+    0 12px 30px rgba(166,56,46,.28),
+    inset 0 0 0 1px rgba(201,162,39,.5);
+}
+
+.zi-tip {
+  font-family: var(--serif);
+  font-size: 12px;
+  letter-spacing: 1px;
+  color: rgba(43,43,43,.6);
+  text-align: center;
+}

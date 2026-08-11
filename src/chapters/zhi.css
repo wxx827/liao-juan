@@ -1,0 +1,133 @@
+/* ============ 辽智 · 智绘诗签 ============ */
+.ch-zhi {
+  background:
+    radial-gradient(120% 55% at 50% 0%, rgba(201,162,39,.14), transparent 60%),
+    linear-gradient(180deg, var(--paper), var(--paper-dark));
+}
+.zhi-stage {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 18px calc(14px + env(safe-area-inset-bottom));
+}
+
+/* 主题词标签 */
+.zhi-themes {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 7px;
+}
+.zhi-theme {
+  font-family: var(--serif);
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--red-deep);
+  background: rgba(245,239,227,.8);
+  border: 1.5px solid rgba(166,56,46,.35);
+  padding: 5px 12px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all .2s ease;
+}
+.zhi-theme.on {
+  color: var(--paper);
+  background: var(--red);
+  border-color: var(--red-deep);
+  box-shadow: 0 3px 10px rgba(166,56,46,.4);
+}
+
+/* 签卡展示区 */
+.zhi-card-wrap {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.zhi-card {
+  max-height: 100%;
+  max-width: min(70vw, 300px);
+  border-radius: 6px;
+  box-shadow: 0 16px 40px rgba(43,43,43,.3);
+  opacity: 0;
+  transform: translateY(20px) scale(.94) rotate(-1deg);
+  transition: opacity .5s ease, transform .5s cubic-bezier(.2,1.2,.35,1);
+}
+.zhi-card.show { opacity: 1; transform: none; }
+.zhi-placeholder {
+  position: absolute;
+  font-size: 13px;
+  letter-spacing: 2px;
+  color: rgba(43,43,43,.4);
+  border: 1.5px dashed rgba(166,56,46,.3);
+  border-radius: 8px;
+  padding: 40px 26px;
+}
+.zhi-loading {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+.zhi-loading[hidden] { display: none; }
+.zhi-loading i {
+  position: absolute;
+  width: 54px; height: 54px;
+  border: 3px solid transparent;
+  border-top-color: var(--red);
+  border-right-color: var(--gold);
+  border-radius: 50%;
+  animation: zhiSpin 1s linear infinite;
+}
+.zhi-loading i:nth-child(2) { width: 40px; height: 40px; animation-duration: .8s; border-top-color: var(--gold); border-right-color: var(--red); }
+.zhi-loading i:nth-child(3) { width: 26px; height: 26px; animation-duration: .6s; }
+.zhi-loading b {
+  margin-top: 64px;
+  font-size: 12px;
+  letter-spacing: 3px;
+  font-weight: 700;
+  color: var(--red-deep);
+  animation: zhiPulse 1s ease-in-out infinite;
+}
+@keyframes zhiSpin { to { transform: rotate(360deg); } }
+@keyframes zhiPulse { 0%,100% { opacity: .5; } 50% { opacity: 1; } }
+
+.zhi-actions {
+  display: flex;
+  gap: 12px;
+  padding-top: 2px;
+}
+.zhi-actions .btn { padding: 9px 22px; font-size: 14px; }
+
+.zhi-meta {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.zhi-count {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--red);
+}
+.zhi-how {
+  font-family: var(--serif);
+  font-size: 11.5px;
+  color: rgba(27,47,73,.7);
+  background: none;
+  border: none;
+  border-bottom: 1px dotted rgba(27,47,73,.5);
+  cursor: pointer;
+}
+
+/* 算法说明浮层：复用 .modal，去掉“景”角标 */
+.zhi-how-card::after { content: none !important; }
+.zhi-how-card p { font-size: 13px; line-height: 1.9; }

@@ -1,0 +1,127 @@
+/* ============ 辽史 · 长河（竖向时间轴） ============ */
+.ch-history {
+  background:
+    radial-gradient(120% 60% at 50% 0%, rgba(27,47,73,.12), transparent 60%),
+    var(--paper);
+}
+.shi-scroll {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: none;
+  padding: 6px 22px 20px;
+}
+.shi-scroll::-webkit-scrollbar { display: none; }
+.shi-track {
+  position: relative;
+  padding: 10px 0 10px 42px;
+}
+.shi-track::before {
+  content: "";
+  position: absolute;
+  left: 17px; top: 8px; bottom: 8px;
+  width: 3px;
+  background: linear-gradient(180deg, var(--gold-soft), var(--red) 55%, var(--indigo));
+  border-radius: 999px;
+  opacity: .8;
+}
+.era-node {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  margin: 0 0 16px;
+  padding: 0;
+  background: none;
+  border: none;
+  font-family: var(--serif);
+  text-align: left;
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(16px);
+  animation: eraIn .6s ease forwards;
+  animation-delay: calc(var(--i) * .08s);
+}
+@keyframes eraIn {
+  to { opacity: 1; transform: none; }
+}
+.era-dot {
+  position: absolute;
+  left: -42px;
+  width: 40px; height: 40px;
+  display: grid; place-items: center;
+  border-radius: 50%;
+  background: var(--paper);
+  border: 2px dashed rgba(166,56,46,.5);
+  transition: all .35s ease;
+  z-index: 2;
+}
+.era-icon {
+  font-size: 18px;
+  font-weight: 900;
+  color: rgba(166,56,46,.55);
+  transition: color .35s ease;
+}
+.era-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 12px 16px;
+  border-radius: 8px;
+  background: rgba(245,239,227,.7);
+  border: 1.5px solid rgba(27,47,73,.14);
+  box-shadow: 0 4px 14px rgba(43,43,43,.06);
+  transition: all .3s ease;
+}
+.era-when {
+  font-size: 11px;
+  letter-spacing: 1px;
+  color: rgba(43,43,43,.55);
+  font-weight: 700;
+}
+.era-title {
+  font-size: 17px;
+  font-weight: 900;
+  letter-spacing: 2px;
+  color: var(--ink);
+}
+.era-node.lit .era-dot {
+  background: var(--red);
+  border: 2px solid var(--gold);
+  box-shadow: 0 3px 12px rgba(166,56,46,.5);
+}
+.era-node.lit .era-icon { color: var(--paper); }
+.era-node.lit .era-info {
+  background: var(--paper);
+  border-color: var(--gold);
+}
+.era-node.lit .era-title { color: var(--red); }
+.era-node.lit .era-title::after { content: " ✓"; color: var(--gold); font-size: 13px; }
+.era-node:active .era-info { transform: scale(.98); }
+
+/* 弹窗（复用 .modal / .modal-card 观感，去掉右上角"景"角标） */
+.shi-card::after { content: none !important; }
+.shi-modal-icon {
+  width: 74px; height: 74px;
+  margin: 4px auto 6px;
+  display: grid; place-items: center;
+  font-size: 40px; font-weight: 900;
+  color: var(--paper);
+  background: var(--red);
+  border: 2px solid var(--gold);
+  border-radius: 12px;
+  transform: rotate(-5deg);
+  box-shadow: 0 6px 16px rgba(166,56,46,.4);
+}
+.shi-modal-era {
+  display: block;
+  font-size: 12px;
+  letter-spacing: 2px;
+  color: var(--indigo);
+  font-style: normal;
+  font-weight: 700;
+  margin-bottom: 2px;
+}

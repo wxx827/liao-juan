@@ -1,0 +1,83 @@
+/* ============ 辽宝 · 矿珍（刮开岩层） ============ */
+.ch-ore {
+  background:
+    radial-gradient(120% 55% at 50% 0%, rgba(43,43,43,.14), transparent 60%),
+    var(--paper-dark);
+}
+.bao-scroll {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: none;
+  padding: 8px 18px 20px;
+  display: flex;
+  align-items: center;
+}
+.bao-scroll::-webkit-scrollbar { display: none; }
+.bao-grid {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 12px;
+}
+.ore {
+  position: relative;
+  aspect-ratio: 1;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 2px solid rgba(43,43,43,.35);
+  background: #0E0C0A;
+  touch-action: none;
+  cursor: grab;
+  box-shadow: inset 0 0 20px rgba(0,0,0,.5);
+}
+.ore-gem {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+  user-select: none; -webkit-user-drag: none;
+}
+.ore-cover {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  transition: opacity .5s ease;
+}
+.ore-name {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  z-index: 2;
+  padding: 4px 2px;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  text-align: center;
+  color: var(--paper);
+  background: linear-gradient(180deg, transparent, rgba(43,43,43,.8));
+  pointer-events: none;
+}
+.ore.mined {
+  border-color: var(--gold);
+  box-shadow: 0 4px 16px rgba(201,162,39,.4);
+}
+.ore.mined .ore-cover { opacity: 0; pointer-events: none; }
+
+/* 弹窗覆盖默认“景”角标 + 矿珍专属样式 */
+.bao-modal-card::after { content: none !important; }
+.bao-modal-card img {
+  aspect-ratio: 1;
+  width: 160px;
+  margin: 4px auto 0;
+  border-radius: 10px;
+  background: #0E0C0A;
+}
+.bao-modal-city {
+  display: block;
+  font-size: 12px;
+  font-style: normal;
+  letter-spacing: 2px;
+  color: var(--indigo);
+  font-weight: 700;
+  margin: 2px 0 6px;
+}
